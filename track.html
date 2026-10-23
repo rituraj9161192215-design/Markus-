@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Your Order — Markus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <style>
+    .track-wrap { max-width: 800px; margin: 40px auto; padding: 0 16px 64px; }
+    .track-card { background: var(--color-navy-card); border: 1px solid var(--color-navy-border); border-radius: var(--radius-xl); padding: 32px; }
+    .search-track-box { display: flex; gap: 12px; margin-bottom: 32px; }
+    .track-input { flex: 1; background: var(--color-navy); border: 1.5px solid var(--color-navy-border); border-radius: 8px; color: #fff; padding: 12px 16px; font-size: 0.95rem; outline: none; }
+    .track-input:focus { border-color: var(--color-orange); }
+    .timeline { position: relative; margin: 32px 0 16px 20px; border-left: 2px solid var(--color-navy-border); padding-left: 24px; }
+    .timeline-item { position: relative; margin-bottom: 28px; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -31px;
+      top: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-navy-border);
+      border: 2px solid var(--color-navy-dark);
+    }
+    .timeline-item.completed::before { background: #22C55E; }
+    .timeline-item.active::before { background: var(--color-orange); box-shadow: 0 0 10px var(--color-orange); }
+    .timeline-title { font-weight: 700; font-size: 0.95rem; color: #fff; }
+    .timeline-date { font-size: 0.78rem; color: var(--color-gray); margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <header class="header" id="mainHeader">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-inner">
+          <a href="../index.html" class="logo" aria-label="Markus Home">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 40" fill="none" width="38" height="38">
+                <rect width="40" height="40" rx="8" fill="#1E3A5F"/>
+                <path d="M8 30L14 10L20 22L26 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="22" r="3" fill="#FF6B35"/>
+              </svg>
+            </div>
+            <div class="logo-text"><span class="logo-brand">Markus</span></div>
+          </a>
+          <div style="flex:1;text-align:center;">
+            <h1 style="font-size:1.1rem;font-weight:700;color:var(--color-white);margin:0;">Live Shipment Tracker</h1>
+          </div>
+          <div class="header-actions">
+            <a href="orders.html" class="header-action-btn">My Orders</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="track-wrap">
+    <div class="track-card">
+      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:8px;">Track Your Package</h2>
+      <p style="color:var(--color-gray);font-size:0.88rem;margin-bottom:20px;">Enter your Order ID (e.g. MRK-2026-001) or AWB Tracking Number</p>
+
+      <div class="search-track-box">
+        <input type="text" id="trackInput" class="track-input" placeholder="Enter Order ID / Tracking Number..." />
+        <button class="btn-buy-now" onclick="lookupTracking()">Track Now</button>
+      </div>
+
+      <div id="trackingDetails" style="display:none;margin-top:24px;border-top:1px solid var(--color-navy-border);padding-top:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+          <div>
+            <span style="font-size:0.8rem;color:var(--color-gray);">Tracking Order:</span>
+            <strong id="displayOrderId" style="color:var(--color-orange);margin-left:6px;"></strong>
+          </div>
+          <div>
+            <span style="background:rgba(34,197,94,0.1);color:#22C55E;padding:4px 12px;border-radius:12px;font-size:0.8rem;font-weight:700;">
+              In Transit — On Schedule
+            </span>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item completed">
+            <div class="timeline-title">Order Placed &amp; Payment Verified</div>
+            <div class="timeline-date">Oct 18, 2026 · 08:30 PM</div>
+          </div>
+          <div class="timeline-item completed">
+            <div class="timeline-title">Packed &amp; Quality Inspection Passed</div>
+            <div class="timeline-date">Oct 18, 2026 · 09:15 PM · Markus Warehouse Hub</div>
+          </div>
+          <div class="timeline-item active">
+            <div class="timeline-title">Handed Over to Courier Partner (BlueDart / Delhivery)</div>
+            <div class="timeline-date">In Transit to Destination Delivery Center</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-title">Out for Delivery</div>
+            <div class="timeline-date">Estimated: Tomorrow by 4:00 PM</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-title">Delivered</div>
+            <div class="timeline-date">Pending doorstep signature</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+  <script src="../js/security.js"></script>
+  <script src="../js/store.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
+        document.getElementById('trackInput').value = id;
+        lookupTracking();
+      }
+    });
+
+    async function lookupTracking() {
+      const val = document.getElementById('trackInput').value.trim();
+      if (!val) {
+        showToast('Please enter an Order ID or AWB code', 'warning');
+        return;
+      }
+      document.getElementById('displayOrderId').textContent = val;
+
+      try {
+        const res = await fetch(`/api/orders/${encodeURIComponent(val)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.order) {
+            const o = data.order;
+            document.getElementById('trackingDetails').style.display = 'block';
+            updateTimelineStatus(o.status || 'processing', o.awb_number, o.created_at);
+            showToast(`Live status loaded for order ${val}!`, 'success');
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // Fallback
+      document.getElementById('trackingDetails').style.display = 'block';
+      showToast('Tracking information displayed', 'info');
+    }
+
+    function updateTimelineStatus(status, awb, dateStr) {
+      const items = document.querySelectorAll('.timeline-item');
+      items.forEach(i => { i.classList.remove('completed', 'active'); });
+
+      // Placed
+      items[0].classList.add('completed');
+      if (dateStr) items[0].querySelector('.timeline-date').textContent = new Date(dateStr).toLocaleString('en-IN');
+
+      if (status === 'processing') {
+        items[1].classList.add('active');
+      } else if (status === 'shipped') {
+        items[1].classList.add('completed');
+        items[2].classList.add('active');
+        if (awb) items[2].querySelector('.timeline-date').textContent = `AWB: ${awb} · In Transit`;
+      } else if (status === 'delivered') {
+        items[1].classList.add('completed');
+        items[2].classList.add('completed');
+        items[3].classList.add('completed');
+        items[4].classList.add('completed');
+      }
+    }
+  </script>
+</body>
+</html>

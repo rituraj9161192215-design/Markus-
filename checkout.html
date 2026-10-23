@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout — Markus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <style>
+    .checkout-wrap { max-width: 1100px; margin: 32px auto; padding: 0 16px 64px; }
+    .checkout-grid { display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+    .checkout-card { background: var(--color-navy-card); border: 1px solid var(--color-navy-border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 24px; }
+    .checkout-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; border-bottom: 1px solid var(--color-navy-border); padding-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--color-gray); margin-bottom: 6px; }
+    .form-input { width: 100%; background: var(--color-navy); border: 1px solid var(--color-navy-border); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; outline: none; }
+    .form-input:focus { border-color: var(--color-orange); }
+    .payment-option-card { border: 1.5px solid var(--color-navy-border); border-radius: 10px; padding: 14px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s; }
+    .payment-option-card.active { border-color: var(--color-orange); background: rgba(255,107,53,0.05); }
+    .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.88rem; color: #CBD5E1; }
+    .summary-row.total { border-top: 1px solid var(--color-navy-border); margin-top: 12px; padding-top: 14px; font-size: 1.15rem; font-weight: 800; color: #fff; }
+    @media(max-width: 860px) { .checkout-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header" id="mainHeader">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-inner">
+          <a href="../index.html" class="logo" aria-label="Markus Home">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 40" fill="none" width="38" height="38">
+                <rect width="40" height="40" rx="8" fill="#1E3A5F"/>
+                <path d="M8 30L14 10L20 22L26 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="22" r="3" fill="#FF6B35"/>
+              </svg>
+            </div>
+            <div class="logo-text"><span class="logo-brand">Markus</span></div>
+          </a>
+          <div style="flex:1;text-align:center;">
+            <h1 style="font-size:1.1rem;font-weight:700;color:var(--color-white);margin:0;">🔒 256-Bit SSL Encrypted Checkout</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="checkout-wrap">
+    <div class="checkout-grid">
+      <!-- Left Column: Forms -->
+      <div>
+        <!-- Shipping Address -->
+        <div class="checkout-card">
+          <div class="checkout-title"><span>1. Delivery Address</span></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input type="text" id="custName" class="form-input" placeholder="e.g. Rituraj Verma" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" id="custPhone" class="form-input" placeholder="e.g. 9876543210" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Flat / House No. / Building / Street *</label>
+            <input type="text" id="custAddress" class="form-input" placeholder="Enter complete address" required/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">City *</label>
+              <input type="text" id="custCity" class="form-input" placeholder="City" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">PIN Code *</label>
+              <input type="text" id="custPincode" class="form-input" placeholder="6-digit PIN" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">GSTIN (Optional for Business Invoice)</label>
+            <input type="text" id="custGSTIN" class="form-input" placeholder="e.g. 07AAAAA0000A1Z5"/>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="checkout-card">
+          <div class="checkout-title"><span>2. Select Payment Method</span></div>
+          <label class="payment-option-card active" onclick="selectPayment('upi', this)">
+            <input type="radio" name="payMethod" value="upi"/>
+            <div>
+              <strong style="color:#fff;">UPI payment (opens your UPI app)</strong>
+              <div style="font-size:0.78rem;color:var(--color-gray);">Payment is not automatically verified. Confirm the payment with the store before dispatch.</div>
+            </div>
+          </label>
+          <label class="payment-option-card" onclick="selectPayment('card', this)">
+            <input type="radio" name="payMethod" value="card"/>
+            <div>
+              <strong style="color:#fff;">Card / NetBanking</strong>
+              <div style="font-size:0.78rem;color:var(--color-gray);">Online card payments are unavailable until a payment gateway is configured.</div>
+            </div>
+          </label>
+          <label class="payment-option-card" onclick="selectPayment('cod', this)">
+            <input type="radio" name="payMethod" value="cod" checked/>
+            <div>
+              <strong style="color:#fff;">Cash on Delivery (COD)</strong>
+              <div style="font-size:0.78rem;color:var(--color-gray);">Pay at your doorstep (verification required)</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Right Column: Order Summary -->
+      <div>
+        <div class="checkout-card" style="position:sticky;top:100px;">
+          <h2 style="font-size:1rem;font-weight:700;margin-bottom:16px;">Order Summary</h2>
+          <div id="checkoutItemsList" style="max-height:220px;overflow-y:auto;margin-bottom:16px;border-bottom:1px solid var(--color-navy-border);padding-bottom:12px;"></div>
+
+          <div class="summary-row"><span>Items Subtotal</span><span id="coSubtotal">₹0</span></div>
+          <div class="summary-row"><span>Estimated GST (18%)</span><span id="coGST">₹0</span></div>
+          <div class="summary-row"><span>Standard Delivery</span><span style="color:#22C55E;">FREE</span></div>
+          <div class="summary-row total"><span>Total Amount</span><span id="coTotal" style="color:var(--color-orange);">₹0</span></div>
+
+          <button class="btn-buy-now" style="width:100%;margin-top:20px;padding:16px;font-size:1.05rem;" onclick="submitOrder()">
+            Confirm &amp; Pay Now →
+          </button>
+          <p style="font-size:0.72rem;color:var(--color-gray);text-align:center;margin-top:12px;">
+            Order confirmation is not proof of online payment. Shipping updates depend on store processing.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="paymentQRModal"></div>
+  <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+  <script src="../js/security.js"></script>
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    let activeMethod = 'cod';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      MarkusStore.init();
+      MarkusAuth.init();
+      loadCheckoutSummary();
+      selectPayment('cod', document.querySelector('input[name="payMethod"][value="cod"]')?.closest('.payment-option-card') || document.querySelector('.payment-option-card'));
+      const pin = document.getElementById('custPincode');
+      pin?.setAttribute('inputmode', 'numeric');
+      pin?.setAttribute('pattern', '[0-9]{6}');
+      pin?.setAttribute('maxlength', '6');
+      const phone = document.getElementById('custPhone');
+      phone?.setAttribute('inputmode', 'tel');
+      phone?.setAttribute('pattern', '[+]?[0-9 ()-]{10,16}');
+    });
+
+    function selectPayment(method, el) {
+      if (method === 'card') {
+        showToast('Card payments are not enabled yet. Please choose COD or UPI.', 'warning');
+        const cod = document.querySelector('input[name="payMethod"][value="cod"]')?.closest('.payment-option-card');
+        if (cod) { activeMethod = 'cod'; document.querySelectorAll('.payment-option-card').forEach(c => c.classList.remove('active')); cod.classList.add('active'); cod.querySelector('input').checked = true; }
+        return;
+      }
+      activeMethod = method;
+      document.querySelectorAll('.payment-option-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      const radio = el.querySelector('input'); if (radio) radio.checked = true;
+    }
+
+    function loadCheckoutSummary() {
+      const cart = MarkusStore.getCart();
+      const list = document.getElementById('checkoutItemsList');
+      if (!list) return;
+
+      if (cart.length === 0) {
+        list.innerHTML = '<p style="color:var(--color-gray);font-size:0.85rem;">Cart is empty. Please add products first.</p>';
+        return;
+      }
+
+      list.innerHTML = cart.map(i => `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;">
+          <span>${i.emoji || '📦'} ${MarkusSecurity.sanitizeHTML(i.name)} × ${i.quantity}</span>
+          <strong>₹${(i.price * i.quantity).toLocaleString('en-IN')}</strong>
+        </div>
+      `).join('');
+
+      const total = MarkusStore.getCartTotal();
+      const gst = Math.round(MarkusStore.getCartGST());
+      const subtotal = total - gst;
+
+      document.getElementById('coSubtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+      document.getElementById('coGST').textContent = `₹${gst.toLocaleString('en-IN')}`;
+      document.getElementById('coTotal').textContent = `₹${total.toLocaleString('en-IN')}`;
+    }
+
+    async function submitOrder() {
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const city = document.getElementById('custCity').value.trim();
+      const pin = document.getElementById('custPincode').value.trim();
+
+      if (!name || !phone || !address || !city || !pin) {
+        showToast('Please fill all required delivery details!', 'warning');
+        return;
+      }
+      if (!/^[+]?[0-9 ()-]{10,16}$/.test(phone) || phone.replace(/\\D/g, '').length < 10) {
+        showToast('Enter a valid phone number.', 'warning'); return;
+      }
+      if (!/^[0-9]{6}$/.test(pin)) {
+        showToast('Enter a valid 6-digit PIN code.', 'warning'); return;
+      }
+      if (activeMethod === 'card') { showToast('Card payments are not enabled.', 'error'); return; }
+      if (activeMethod === 'upi' && !document.querySelector('meta[name="markus-upi-id"]')?.content) {
+        showToast('UPI is not configured yet. Please choose Cash on Delivery.', 'warning'); return;
+      }
+
+      const cart = MarkusStore.getCart();
+      if (cart.length === 0) {
+        showToast('Your cart is empty!', 'warning');
+        return;
+      }
+
+      showToast('Processing order & generating GST invoice...', 'info');
+      const total = MarkusStore.getCartTotal();
+      const gst = Math.round(MarkusStore.getCartGST());
+
+      const res = await MarkusStore.placeOrder({
+        customer: { name, phone, address, city, pincode: pin, gstin: document.getElementById('custGSTIN').value.trim() },
+        paymentMethod: activeMethod,
+        items: cart,
+        total,
+        gst
+      });
+
+      if (res.success) {
+        if (activeMethod === 'upi') {
+          const upiId = document.querySelector('meta[name="markus-upi-id"]')?.content;
+          if (!upiId) {
+            showToast('Order created, but UPI is not configured. Contact the store to arrange payment.', 'warning');
+          } else {
+            const payUrl = `upi://pay?${new URLSearchParams({pa: upiId, pn: 'Markus Store', am: Number(total).toFixed(2), cu: 'INR', tn: `Order ${res.orderId}`})}`;
+            window.location.href = payUrl;
+          }
+          setTimeout(() => { window.location.href = `order-success.html?orderId=${encodeURIComponent(res.orderId)}`; }, 900);
+        } else {
+          showToast('Order placed successfully! Redirecting...', 'success');
+          setTimeout(() => {
+            window.location.href = `order-success.html?orderId=${encodeURIComponent(res.orderId)}`;
+          }, 900);
+        }
+      } else {
+        showToast(res.message || 'Error placing order', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

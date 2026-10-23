@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopping Cart — Markus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <style>
+    .page-wrapper { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+    .page-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 24px; }
+    .cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+    .cart-items-panel { background: var(--color-navy-card); border: 1px solid var(--color-navy-border); border-radius: var(--radius-xl); overflow: hidden; }
+    .cart-panel-header { padding: 16px 20px; border-bottom: 1px solid var(--color-navy-border); font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+    .cart-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 16px; padding: 20px; border-bottom: 1px solid var(--color-navy-border); align-items: start; }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-image { width: 80px; height: 80px; background: linear-gradient(135deg,#112040,#1E3A5F); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+    .cart-item-name { font-weight: 600; font-size: .9rem; margin-bottom: 4px; }
+    .cart-item-meta { font-size: .72rem; color: var(--color-gray); margin-bottom: 10px; }
+    .cart-item-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .quantity-control { display: flex; align-items: center; gap: 0; border: 1.5px solid var(--color-navy-border); border-radius: 8px; overflow: hidden; }
+    .quantity-control button { width: 32px; height: 32px; background: var(--color-navy); color: var(--color-white); font-size: 1.1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s; border: none; }
+    .quantity-control button:hover { background: var(--color-orange); }
+    .qty-value { width: 36px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .9rem; background: var(--color-navy-mid); border: none; color: var(--color-white); }
+    .cart-remove-btn, .cart-wishlist-btn { background: none; border: none; color: var(--color-gray); font-size: .78rem; cursor: pointer; transition: color .15s; padding: 4px; }
+    .cart-remove-btn:hover { color: var(--color-error); }
+    .cart-wishlist-btn:hover { color: var(--color-orange); }
+    .cart-item-price { text-align: right; }
+    .empty-cart { text-align: center; padding: 60px 20px; color: var(--color-gray); }
+    .empty-cart h2 { font-size: 1.2rem; color: var(--color-white); margin: 12px 0 8px; }
+
+    /* Summary Panel */
+    .cart-summary-panel { background: var(--color-navy-card); border: 1px solid var(--color-navy-border); border-radius: var(--radius-xl); padding: 20px; position: sticky; top: 140px; }
+    .summary-title { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 20px; color: var(--color-gray); }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: .88rem; }
+    .summary-row.grand { font-size: 1.1rem; font-weight: 800; border-top: 2px solid var(--color-navy-border); margin-top: 8px; padding-top: 12px; }
+    .summary-row .green { color: var(--color-success); }
+    .summary-row .gray { color: var(--color-gray); }
+    .checkout-btn { width: 100%; margin-top: 20px; background: var(--color-orange); color: white; border: none; border-radius: var(--radius-md); padding: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+    .checkout-btn:hover { background: var(--color-orange-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,53,.4); }
+    .savings-banner { background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.2); border-radius: var(--radius-md); padding: 10px 14px; margin-top: 16px; font-size: .82rem; color: var(--color-success); text-align: center; }
+    .coupon-row { display: flex; gap: 8px; margin-top: 16px; }
+    .coupon-input { flex: 1; padding: 10px 12px; background: var(--color-navy); border: 1.5px solid var(--color-navy-border); border-radius: var(--radius-md); color: var(--color-white); font-size: .85rem; outline: none; }
+    .coupon-input:focus { border-color: var(--color-orange); }
+    .coupon-btn { padding: 10px 16px; background: transparent; border: 1.5px solid var(--color-orange); color: var(--color-orange); border-radius: var(--radius-md); font-weight: 700; font-size: .82rem; cursor: pointer; transition: all .15s; white-space: nowrap; }
+    .coupon-btn:hover { background: var(--color-orange); color: white; }
+    .payment-icons { display: flex; gap: 6px; margin-top: 16px; justify-content: center; flex-wrap: wrap; }
+    .payment-icon { background: var(--color-navy); border: 1px solid var(--color-navy-border); border-radius: 6px; padding: 4px 10px; font-size: .7rem; color: var(--color-gray); }
+    @media(max-width:800px) { .cart-layout { grid-template-columns: 1fr; } .cart-summary-panel { position: static; } }
+    @media(max-width:500px) { .cart-item { grid-template-columns: 60px 1fr; } .cart-item-price { grid-column: 2; } }
+  </style>
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <!-- Header (simplified) -->
+  <header class="header" id="mainHeader">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-inner">
+          <a href="../index.html" class="logo" aria-label="Markus Home">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="42" height="42">
+                <rect width="40" height="40" rx="8" fill="url(#lg2)"/>
+                <path d="M8 30L14 10L20 22L26 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="22" r="3" fill="#FF6B35"/>
+                <defs><linearGradient id="lg2" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#1E3A5F"/><stop offset="100%" stop-color="#0A1628"/></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="logo-text"><span class="logo-brand">Markus</span></div>
+          </a>
+          <div style="flex:1;text-align:center;">
+            <h1 style="font-size:1.1rem;font-weight:700;color:var(--color-white);">Shopping Cart</h1>
+          </div>
+          <a href="../pages/orders.html" class="header-action-btn" style="font-size:.82rem;color:var(--color-silver);">My Orders</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <div class="page-wrapper">
+      <div class="cart-layout">
+        <!-- Cart Items -->
+        <div>
+          <div class="cart-items-panel">
+            <div class="cart-panel-header">
+              <span>Cart Items (<span id="cartCount">0</span>)</span>
+              <button onclick="clearCartUI()" style="font-size:.78rem;color:var(--color-error);cursor:pointer;" aria-label="Clear cart">Clear All</button>
+            </div>
+            <div id="cartItemsContainer">
+              <div style="text-align:center;padding:40px;color:var(--color-gray);">
+                <div class="spinner"></div>
+                <p style="margin-top:12px;">Loading your cart...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- You may also like -->
+          <div style="margin-top:24px;">
+            <h2 style="font-size:1rem;font-weight:700;margin-bottom:16px;">You May Also Like</h2>
+            <div class="products-grid" id="recommendedInCart" style="grid-template-columns:repeat(3,1fr);"></div>
+          </div>
+        </div>
+
+        <!-- Summary Panel -->
+        <aside class="cart-summary-panel" aria-label="Order summary">
+          <h2 class="summary-title">Order Summary</h2>
+
+          <div class="summary-row">
+            <span class="gray">Subtotal (excl. GST)</span>
+            <span id="cartSubtotal">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span class="gray">GST</span>
+            <span id="cartGST">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span class="gray">Shipping</span>
+            <span id="cartShipping" style="color:var(--color-success);">FREE</span>
+          </div>
+          <div class="summary-row grand">
+            <span>Total</span>
+            <span id="cartTotal">₹0</span>
+          </div>
+
+          <div class="savings-banner" id="savingsBanner">
+            🎉 You're saving <strong id="cartSavings">₹0</strong> on this order!
+          </div>
+
+          <div class="coupon-row">
+            <input type="text" class="coupon-input" id="couponInput" placeholder="Enter coupon code" aria-label="Coupon code"/>
+            <button class="coupon-btn" onclick="applyCoupon()" aria-label="Apply coupon">Apply</button>
+          </div>
+
+          <button class="checkout-btn" id="checkoutBtn" onclick="proceedToCheckout()" aria-label="Proceed to checkout">
+            Proceed to Checkout →
+          </button>
+
+          <div class="payment-icons" aria-label="Accepted payment methods">
+            <span class="payment-icon">UPI</span>
+            <span class="payment-icon">GPay</span>
+            <span class="payment-icon">PhonePe</span>
+            <span class="payment-icon">Paytm</span>
+            <span class="payment-icon">Card</span>
+          </div>
+
+          <p style="font-size:.7rem;color:var(--color-gray);text-align:center;margin-top:12px;">
+            🔒 100% Secure Checkout · SSL Encrypted · GST Invoice Included
+          </p>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+  <a href="https://wa.me/918957271609" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp support">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script src="../js/security.js"></script>
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      MarkusStore.init();
+      MarkusAuth.init();
+      MarkusCart.renderCartPage();
+      updateCartCount();
+      // Load recommended products
+      const grid = document.getElementById('recommendedInCart');
+      if (grid) {
+        const products = MarkusStore.getRecommendedProducts().slice(0, 3);
+        grid.innerHTML = products.map(p => MarkusProducts.renderProductCard(p)).join('');
+      }
+    });
+
+    function updateCartCount() {
+      const el = document.getElementById('cartCount');
+      if (el) el.textContent = MarkusStore.getCartCount();
+    }
+
+    function clearCartUI() {
+      if (confirm('Clear all items from your cart?')) {
+        MarkusStore.clearCart();
+        MarkusCart.renderCartPage();
+        updateCartCount();
+        showToast('Cart cleared', 'info');
+      }
+    }
+
+    function applyCoupon() {
+      const code = document.getElementById('couponInput')?.value.trim().toUpperCase();
+      const validCodes = { 'MARKUS10': 10, 'MAKER20': 20, 'FIRST15': 15 };
+      if (validCodes[code]) {
+        showToast(`Coupon "${code}" applied! ${validCodes[code]}% off 🎉`, 'success');
+      } else {
+        showToast('Invalid or expired coupon code', 'error');
+      }
+    }
+
+    function proceedToCheckout() {
+      if (MarkusStore.getCartCount() === 0) { showToast('Your cart is empty!', 'warning'); return; }
+      if (!MarkusAuth.isLoggedIn()) {
+        MarkusAuth.openAuthModal('login');
+        showToast('Please login to checkout', 'info');
+        return;
+      }
+      window.location.href = '../pages/checkout.html';
+    }
+  </script>
+</body>
+</html>

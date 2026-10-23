@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Gerber & Order Custom PCB — Markus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <style>
+    .gerber-wrap { max-width: 1000px; margin: 32px auto; padding: 0 16px 64px; }
+    .gerber-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; }
+    .upload-box {
+      border: 2px dashed var(--color-orange);
+      border-radius: var(--radius-xl);
+      padding: 40px 24px;
+      text-align: center;
+      background: rgba(255,107,53,0.03);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .upload-box:hover, .upload-box.dragover {
+      background: rgba(255,107,53,0.08);
+      border-color: #FFA270;
+      transform: translateY(-2px);
+    }
+    .spec-card { background: var(--color-navy-card); border: 1px solid var(--color-navy-border); border-radius: var(--radius-xl); padding: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--color-gray); margin-bottom: 6px; text-transform: uppercase; }
+    .form-select, .form-input {
+      width: 100%;
+      background: var(--color-navy);
+      border: 1px solid var(--color-navy-border);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .form-select:focus, .form-input:focus { border-color: var(--color-orange); }
+    .quote-box {
+      background: linear-gradient(135deg, #112040, #1E3A5F);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 24px;
+      border: 1px solid rgba(255,107,53,0.3);
+    }
+    .quote-price { font-size: 1.8rem; font-weight: 800; color: var(--color-orange); }
+    .file-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-navy);
+      border: 1px solid var(--color-navy-border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: #22D3EE;
+    }
+    @media(max-width: 768px) { .gerber-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header" id="mainHeader">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-inner">
+          <a href="../index.html" class="logo" aria-label="Markus Home">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 40" fill="none" width="38" height="38">
+                <rect width="40" height="40" rx="8" fill="#1E3A5F"/>
+                <path d="M8 30L14 10L20 22L26 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="22" r="3" fill="#FF6B35"/>
+              </svg>
+            </div>
+            <div class="logo-text"><span class="logo-brand">Markus</span></div>
+          </a>
+          <div style="flex:1;text-align:center;">
+            <h1 style="font-size:1.1rem;font-weight:700;color:var(--color-white);margin:0;">Gerber File PCB Fabrication</h1>
+          </div>
+          <div class="header-actions">
+            <a href="https://wa.me/918765450399?text=Hi%2C%20I%20have%20a%20custom%20PCB%20requirement" target="_blank" class="header-action-btn" style="color:#22C55E;font-size:0.85rem;">
+              <span>💬 WhatsApp PCB Help</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="gerber-wrap">
+    <div style="text-align:center;margin-bottom:32px;">
+      <h2 style="font-size:2rem;font-weight:800;margin-bottom:8px;">Instant PCB Quotation &amp; Fabrication</h2>
+      <p style="color:var(--color-gray);font-size:0.95rem;max-width:600px;margin:0 auto;">
+        Upload your standard ZIP Gerber files (RS-274X format). High precision 1–4 layer rapid prototyping with pan-India dispatch in 3–5 working days.
+      </p>
+    </div>
+
+    <div class="gerber-grid">
+      <!-- Upload Section -->
+      <div>
+        <div class="upload-box" id="dropArea" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" accept=".zip,.rar,.tar" style="display:none;" onchange="handleFile(this.files[0])"/>
+          <div style="font-size:3rem;margin-bottom:12px;">📁</div>
+          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:6px;">Upload Gerber Archive (.ZIP)</h3>
+          <p style="color:var(--color-gray);font-size:0.85rem;">Drag &amp; drop your compressed Gerber ZIP file here, or click to browse</p>
+          <div id="fileInfo" style="display:none;"></div>
+        </div>
+
+        <div style="margin-top:24px;background:var(--color-navy-card);border:1px solid var(--color-navy-border);border-radius:var(--radius-xl);padding:20px;">
+          <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;color:var(--color-orange);">Standard Manufacturing Specs</h4>
+          <ul style="font-size:0.85rem;color:var(--color-gray);line-height:1.8;padding-left:18px;">
+            <li>Standard FR-4 material, TG 130–140°C</li>
+            <li>Min Track / Spacing: 4mil (0.1mm)</li>
+            <li>Min Hole Size: 0.2mm</li>
+            <li>Surface Finish: HASL lead-free or ENIG Gold</li>
+            <li>Solder Mask Colors: Green, Matte Black, Blue, Red, White, Yellow</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Specification Parameters -->
+      <div class="spec-card">
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:16px;">Configure PCB Parameters</h3>
+        
+        <div class="form-group">
+          <label class="form-label">Number of Layers</label>
+          <select id="pcbLayers" class="form-select" onchange="calculatePrice()">
+            <option value="1">1 Layer (Single Sided)</option>
+            <option value="2" selected>2 Layers (Double Sided)</option>
+            <option value="4">4 Layers Multilayer (+₹600)</option>
+          </select>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Dimensions (Length mm)</label>
+            <input type="number" id="pcbLength" class="form-input" value="100" min="10" max="500" onchange="calculatePrice()"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dimensions (Width mm)</label>
+            <input type="number" id="pcbWidth" class="form-input" value="100" min="10" max="500" onchange="calculatePrice()"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Quantity</label>
+          <select id="pcbQty" class="form-select" onchange="calculatePrice()">
+            <option value="5">5 Pieces</option>
+            <option value="10" selected>10 Pieces (Recommended)</option>
+            <option value="20">20 Pieces</option>
+            <option value="50">50 Pieces</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Solder Mask Color</label>
+          <select id="pcbColor" class="form-select">
+            <option value="green">Classic Green</option>
+            <option value="black">Stealth Matte Black</option>
+            <option value="blue">Deep Blue</option>
+            <option value="red">Engine Red</option>
+            <option value="white">Clean White</option>
+          </select>
+        </div>
+
+        <div class="quote-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <span style="font-size:0.8rem;color:var(--color-gray);text-transform:uppercase;">Estimated Price (incl. GST)</span>
+              <div class="quote-price" id="quotePriceDisplay">₹499</div>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:0.75rem;color:#22C55E;">✔ Standard HASL</span><br/>
+              <span style="font-size:0.75rem;color:var(--color-gray);">Dispatch in 4 days</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-buy-now" style="width:100%;margin-top:20px;padding:14px;font-size:1rem;" onclick="orderCustomPCB()">
+          Place PCB Order Now
+        </button>
+        <a href="https://wa.me/918765450399?text=Hi%2C%20I%20need%20custom%20PCB%20design%20assistance" target="_blank" class="btn-add-cart" style="display:block;text-align:center;width:100%;margin-top:10px;text-decoration:none;">
+          Direct WhatsApp PCB Support (8765450399)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+  <script src="../js/security.js"></script>
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    let uploadedFileName = '';
+    let uploadedFileUrl = '';
+
+    async function handleFile(file) {
+      if (!file) return;
+      uploadedFileName = file.name;
+      const info = document.getElementById('fileInfo');
+      info.style.display = 'inline-flex';
+      info.className = 'file-pill';
+      info.innerHTML = `⏳ Uploading ${MarkusSecurity.sanitizeHTML(file.name)}...`;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/upload/gerber', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          uploadedFileUrl = data.fileUrl;
+          info.innerHTML = `📄 ${MarkusSecurity.sanitizeHTML(file.name)} (${(file.size/1024/1024).toFixed(2)} MB) ✔ Uploaded to Server`;
+          showToast('Gerber file stored securely on server! ✔', 'success');
+        } else {
+          info.innerHTML = `📄 ${MarkusSecurity.sanitizeHTML(file.name)} ✔ Ready`;
+          showToast(data.message || 'File selected', 'info');
+        }
+      } catch (err) {
+        info.innerHTML = `📄 ${MarkusSecurity.sanitizeHTML(file.name)} ✔ Ready (Offline Mode)`;
+        showToast('Gerber file attached locally', 'info');
+      }
+    }
+
+    function calculatePrice() {
+      const layers = parseInt(document.getElementById('pcbLayers').value);
+      const length = parseFloat(document.getElementById('pcbLength').value) || 100;
+      const width = parseFloat(document.getElementById('pcbWidth').value) || 100;
+      const qty = parseInt(document.getElementById('pcbQty').value);
+
+      let base = 499;
+      if (layers === 4) base += 600;
+      if (length > 100 || width > 100) base += Math.round(((length * width) - 10000) / 100);
+      if (qty === 20) base += 350;
+      if (qty === 50) base += 900;
+
+      document.getElementById('quotePriceDisplay').textContent = `₹${base.toLocaleString('en-IN')}`;
+    }
+
+    async function orderCustomPCB() {
+      if (!uploadedFileName) {
+        showToast('Please upload your Gerber ZIP file first!', 'warning');
+        return;
+      }
+      const priceText = document.getElementById('quotePriceDisplay').textContent.replace('₹','').replace(',','');
+      const price = parseInt(priceText);
+      const layers = document.getElementById('pcbLayers').value;
+      const qty = document.getElementById('pcbQty').value;
+      const color = document.getElementById('pcbColor').value;
+
+      try {
+        await fetch('/api/inquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service_type: 'gerber_pcb',
+            customer_name: MarkusAuth.getCurrentUser()?.name || 'Customer',
+            customer_phone: MarkusAuth.getCurrentUser()?.phone || '8765450399',
+            file_name: uploadedFileName,
+            file_path: uploadedFileUrl,
+            params: { layers, qty, color },
+            estimated_price: price
+          })
+        });
+      } catch (e) {}
+
+      MarkusStore.addToCart('pcb-001', 1);
+      showToast(`Custom PCB Order added to cart! (File: ${uploadedFileName})`, 'success');
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

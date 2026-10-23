@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2nd Hand Certified Laptops — Markus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <style>
+    .quality-badge-row { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+    .quality-pill { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: #22C55E; padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="header" id="mainHeader">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-inner">
+          <a href="../index.html" class="logo" aria-label="Markus Home">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 40" fill="none" width="38" height="38">
+                <rect width="40" height="40" rx="8" fill="#1E3A5F"/>
+                <path d="M8 30L14 10L20 22L26 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="22" r="3" fill="#FF6B35"/>
+              </svg>
+            </div>
+            <div class="logo-text"><span class="logo-brand">Markus</span></div>
+          </a>
+          <div style="flex:1;text-align:center;">
+            <h1 style="font-size:1.1rem;font-weight:700;color:var(--color-white);margin:0;">2nd Hand Certified Laptops</h1>
+          </div>
+          <div class="header-actions">
+            <a href="cart.html" class="header-action-btn cart-btn">
+              <span class="action-value">Cart</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" style="max-width:1280px;margin:32px auto;padding:0 16px;">
+    <div style="background:linear-gradient(135deg,rgba(10,22,40,0.95),rgba(30,58,95,0.9));border-radius:16px;padding:36px;border:1px solid var(--color-navy-border);margin-bottom:32px;">
+      <h2 style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:8px;">💻 Certified Refurbished Laptops</h2>
+      <p style="color:var(--color-gray);font-size:0.95rem;max-width:650px;">
+        Every laptop undergoes our 45-point rigorous hardware diagnostic checklist, fresh thermal paste application, clean OS install, and comes with a 6-month warranty and GST invoice.
+      </p>
+      <div class="quality-badge-row">
+        <span class="quality-pill">✔ 45-Point Tested</span>
+        <span class="quality-pill">✔ 6-Month Warranty</span>
+        <span class="quality-pill">✔ Genuine Windows 11</span>
+        <span class="quality-pill">✔ 7-Day Replacement</span>
+      </div>
+    </div>
+
+    <div class="products-grid" id="laptopProductsGrid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));"></div>
+  </div>
+
+  <div id="quickViewContainer"></div>
+  <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+  <script src="../js/security.js"></script>
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      MarkusStore.init();
+      MarkusAuth.init();
+      const list = MarkusStore.getAllProducts().filter(p => p.category === 'laptops');
+      const grid = document.getElementById('laptopProductsGrid');
+      if (grid) {
+        grid.innerHTML = list.map(p => MarkusProducts.renderProductCard(p)).join('');
+      }
+    });
+  </script>
+</body>
+</html>

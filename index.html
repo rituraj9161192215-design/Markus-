@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Markus — Your ultimate platform for Electronics, Robotics, 3D Printing, Custom PCBs, Fashion, Home Decor & Refurbished Laptops. Shop, Create, Innovate." />
+  <meta name="keywords" content="electronics components, robotics, 3D printing, custom PCB, Gerber file, fashion, home decor, refurbished laptops, India" />
+  <meta name="author" content="Markus Platform" />
+  <meta property="og:title" content="Markus — Create. Customize. Commerce." />
+  <meta property="og:description" content="India's most innovative e-commerce platform for makers, creators and explorers." />
+  <meta property="og:type" content="website" />
+  <title>Markus — Create. Customize. Commerce.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+</head>
+<body>
+
+  <!-- ====== SECURITY META HEADERS (via JS injection) ====== -->
+  <!-- Content-Security-Policy, HSTS, X-Frame-Options etc. are set server-side -->
+
+  <!-- ====== TOP ANNOUNCEMENT BAR ====== -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-inner">
+      <span class="announcement-item">🚀 Free shipping on orders above ₹499</span>
+      <span class="announcement-separator">|</span>
+      <span class="announcement-item">⚡ Electronics Kits — Assemble. Learn. Build.</span>
+      <span class="announcement-separator">|</span>
+      <span class="announcement-item">🎁 New: Desk Robo & Octa Robo kits are LIVE!</span>
+      <span class="announcement-separator">|</span>
+      <span class="announcement-item">📦 GST compliant invoices on every order</span>
+    </div>
+    <button class="announcement-close" id="closeAnnouncement" aria-label="Close announcement">✕</button>
+  </div>
+
+  <!-- ====== MAIN HEADER ====== -->
+  <header class="header" id="mainHeader">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-inner">
+
+          <!-- LOGO -->
+          <a href="index.html" class="logo" aria-label="Markus Home">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="40" height="40" rx="8" fill="url(#logoGrad)"/>
+                <path d="M8 30L14 10L20 22L26 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="22" r="3" fill="#FF6B35"/>
+                <defs>
+                  <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                    <stop offset="0%" stop-color="#1E3A5F"/>
+                    <stop offset="100%" stop-color="#0A1628"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-brand">Markus</span>
+              <span class="logo-tagline">Create. Customize. Commerce.</span>
+            </div>
+          </a>
+
+          <!-- SEARCH BAR -->
+          <div class="search-container" role="search">
+            <div class="search-category-selector">
+              <select id="searchCategory" aria-label="Search category">
+                <option value="all">All</option>
+                <option value="electronics">Electronics</option>
+                <option value="robotics">Robotics</option>
+                <option value="3dprint">3D Print</option>
+                <option value="pcb">PCB</option>
+                <option value="fashion">Fashion</option>
+                <option value="homedecor">Home Decor</option>
+                <option value="laptops">Laptops</option>
+              </select>
+            </div>
+            <input
+              type="search"
+              id="mainSearchInput"
+              class="search-input"
+              placeholder="Search for products, brands and more..."
+              autocomplete="off"
+              aria-label="Search products"
+            />
+            <button class="search-btn" id="searchBtn" aria-label="Search">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+            <!-- Search Dropdown -->
+            <div class="search-dropdown" id="searchDropdown" role="listbox" aria-label="Search suggestions">
+              <div class="search-trending">
+                <span class="search-label">🔥 Trending</span>
+                <div class="search-tags">
+                  <button class="search-tag" onclick="fillSearch('Arduino Uno Kit')">Arduino Uno Kit</button>
+                  <button class="search-tag" onclick="fillSearch('Desk Robo')">Desk Robo</button>
+                  <button class="search-tag" onclick="fillSearch('Custom PCB')">Custom PCB</button>
+                  <button class="search-tag" onclick="fillSearch('3D Print')">3D Print</button>
+                  <button class="search-tag" onclick="fillSearch('Laptop i5')">Laptop i5</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HEADER ACTIONS -->
+          <div class="header-actions">
+            <!-- Location -->
+            <button class="header-action-btn location-btn" id="locationBtn" aria-label="Set delivery location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              <div class="action-text">
+                <span class="action-label">Deliver to</span>
+                <span class="action-value" id="locationValue">India</span>
+              </div>
+            </button>
+
+            <!-- Auth -->
+            <div class="header-auth-section" id="headerAuthSection">
+              <button class="header-action-btn auth-btn" id="authBtn" aria-label="Login or Signup" aria-haspopup="true" aria-expanded="false">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <div class="action-text">
+                  <span class="action-label">Hello, Sign In</span>
+                  <span class="action-value">Account & Orders ▾</span>
+                </div>
+              </button>
+              <!-- Auth Dropdown -->
+              <div class="auth-dropdown" id="authDropdown" role="menu">
+                <div class="auth-dropdown-header" id="authDropdownHeader">
+                  <p>New customer?</p>
+                  <a href="pages/signup.html" class="btn-orange" id="authSignupLink">Start here</a>
+                </div>
+                <hr/>
+                <div class="auth-dropdown-links">
+                  <div class="auth-col">
+                    <strong>My Account</strong>
+                    <a href="pages/profile.html" role="menuitem">My Profile</a>
+                    <a href="pages/orders.html" role="menuitem">Orders</a>
+                    <a href="pages/wishlist.html" role="menuitem">Wishlist</a>
+                    <a href="pages/track.html" role="menuitem">Track Order</a>
+                  </div>
+                  <div class="auth-col">
+                    <strong>Services</strong>
+                    <a href="pages/orders.html" role="menuitem">My Invoices</a>
+                    <a href="pages/admin.html" role="menuitem" style="color:var(--color-orange);font-weight:600;">Admin Panel</a>
+                    <a href="https://wa.me/918957271609" target="_blank" role="menuitem">WhatsApp Support</a>
+                  </div>
+                </div>
+                <hr/>
+                <a href="#" class="auth-logout-link" id="logoutLink" role="menuitem" style="display:none;">Logout</a>
+              </div>
+            </div>
+
+            <!-- Wishlist -->
+            <a href="pages/wishlist.html" class="header-action-btn wishlist-btn" aria-label="Wishlist">
+              <div class="icon-with-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <span class="badge" id="wishlistBadge">0</span>
+              </div>
+              <span class="action-value">Wishlist</span>
+            </a>
+
+            <!-- Cart -->
+            <a href="pages/cart.html" class="header-action-btn cart-btn" aria-label="Shopping Cart">
+              <div class="icon-with-badge">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                <span class="badge cart-badge" id="cartBadge">0</span>
+              </div>
+              <span class="action-value">Cart</span>
+            </a>
+          </div>
+
+          <!-- MOBILE HAMBURGER -->
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+
+        </div><!-- end header-top-inner -->
+      </div><!-- end container -->
+    </div><!-- end header-top -->
+
+    <!-- ====== CATEGORY NAVIGATION BAR ====== -->
+    <nav class="category-nav" id="categoryNav" role="navigation" aria-label="Product categories">
+      <div class="container">
+        <ul class="category-list" role="list">
+
+          <li class="category-item" role="listitem">
+            <a href="pages/category-electronics.html" class="category-link" aria-label="Electronics Components and Kits">
+              <div class="cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                  <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+                </svg>
+              </div>
+              <span class="cat-label">Electronics<br/><small>Components & Kits</small></span>
+            </a>
+          </li>
+
+          <li class="category-item" role="listitem">
+            <a href="pages/category-robotics.html" class="category-link" aria-label="Projects, Robots and Drones">
+              <div class="cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="10" rx="2"/>
+                  <path d="M9 11V7a3 3 0 0 1 6 0v4"/>
+                  <circle cx="9" cy="15" r="1" fill="currentColor"/>
+                  <circle cx="15" cy="15" r="1" fill="currentColor"/>
+                  <path d="M12 4v3M8 21l-2 2M16 21l2 2"/>
+                </svg>
+              </div>
+              <span class="cat-label">Projects / Robos<br/><small>Drones & Kits</small></span>
+            </a>
+          </li>
+
+          <li class="category-item" role="listitem">
+            <a href="pages/category-gerber.html" class="category-link" aria-label="Upload Gerber File and Order PCB">
+              <div class="cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <polyline points="16 16 12 12 8 16"/>
+                  <line x1="12" y1="12" x2="12" y2="21"/>
+                  <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+                </svg>
+              </div>
+              <span class="cat-label">Upload Gerber<br/><small>Order PCB</small></span>
+            </a>
+          </li>
+
+          <li class="category-item" role="listitem">
+            <a href="pages/category-3dprint.html" class="category-link" aria-label="Order Custom 3D Print">
+              <div class="cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <span class="cat-label">Order 3D Print<br/><small>Custom Prints</small></span>
+            </a>
+          </li>
+
+          <li class="category-item whatsapp-cat" role="listitem">
+            <a href="https://wa.me/918468013826?text=Hi%2C%20I%20want%20to%20customize%20a%203D%20print" 
+               class="category-link" 
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Customize 3D Print via WhatsApp">
+              <div class="cat-icon whatsapp-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+              </div>
+              <span class="cat-label">Customize 3D<br/><small>WhatsApp Order</small></span>
+            </a>
+          </li>
+
+          <li class="category-item whatsapp-cat" role="listitem">
+            <a href="https://wa.me/918765450399?text=Hi%2C%20I%20want%20to%20customize%20a%20PCB" 
+               class="category-link"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Customize PCB via WhatsApp">
+              <div class="cat-icon whatsapp-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="2"/>
+                  <path d="M7 7h.01M12 7h.01M17 7h.01M7 12h.01M12 12h.01M17 12h.01M7 17h.01M12 17h.01M17 17h.01"/>
+                  <path d="M5 5l14 14M5 19L19 5" stroke-width="0.5" stroke-dasharray="2 2"/>
+                </svg>
+              </div>
+              <span class="cat-label">Customize PCB<br/><small>WhatsApp Order</small></span>
+            </a>
+          </li>
+
+          <li class="category-item" role="listitem">
+            <a href="pages/category-fashion.html" class="category-link" aria-label="Fashion and Lifestyle">
+              <div class="cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/>
+                </svg>
+              </div>
+              <span class="cat-label">Fashion &amp;<br/><small>Lifestyle</small></span>
+            </a>
+          </li>
+
+          <li class="category-item" role="listitem">
+            <a href="pages/category-homedecor.html" class="category-link" aria-label="Home Decors">
+              <div class="cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </div>
+              <span class="cat-label">Home<br/><small>Decors</small></span>
+            </a>
+          </li>
+
+          <li class="category-item" role="listitem">
+            <a href="pages/category-laptops.html" class="category-link" aria-label="2nd Hand Laptops">
+              <div class="cat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="2" y1="20" x2="22" y2="20"/>
+                  <line x1="8" y1="17" x2="16" y2="17"/>
+                </svg>
+              </div>
+              <span class="cat-label">2nd Hand<br/><small>Laptops</small></span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" aria-hidden="true"></div>
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile menu" aria-modal="true">
+      <div class="mobile-menu-header">
+        <span class="mobile-greeting" id="mobileGreeting">Hello, Guest</span>
+        <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+      </div>
+      <nav aria-label="Mobile navigation">
+        <ul class="mobile-nav-list">
+          <li><a href="pages/category-electronics.html">⚡ Electronics Components &amp; Kits</a></li>
+          <li><a href="pages/category-robotics.html">🤖 Projects / Robos / Drones</a></li>
+          <li><a href="pages/category-gerber.html">📐 Upload Gerber File</a></li>
+          <li><a href="pages/category-3dprint.html">🖨️ Order 3D Print</a></li>
+          <li><a href="https://wa.me/918468013826?text=Hi%2C+I+want+to+customize+a+3D+print" target="_blank" rel="noopener">💬 Customize 3D Print (WhatsApp)</a></li>
+          <li><a href="https://wa.me/918765450399?text=Hi%2C+I+want+to+customize+a+PCB" target="_blank" rel="noopener">💬 Customize PCB (WhatsApp)</a></li>
+          <li><a href="pages/category-fashion.html">👗 Fashion &amp; Lifestyle</a></li>
+          <li><a href="pages/category-homedecor.html">🏠 Home Decors</a></li>
+          <li><a href="pages/category-laptops.html">💻 2nd Hand Laptops</a></li>
+        </ul>
+        <hr class="mobile-divider"/>
+        <ul class="mobile-account-list">
+          <li><a href="pages/profile.html">👤 My Profile</a></li>
+          <li><a href="pages/orders.html">📦 My Orders</a></li>
+          <li><a href="pages/wishlist.html">❤️ Wishlist</a></li>
+          <li><a href="pages/track.html">📍 Track Order</a></li>
+          <li><a href="pages/invoices.html">🧾 Invoices</a></li>
+          <li><a href="pages/support.html">💬 Support</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main id="mainContent">
+
+    <!-- ====== HERO SECTION ====== -->
+    <section class="hero-section" aria-label="Hero banner">
+      <div class="hero-slider" id="heroSlider" role="region" aria-label="Featured promotions" aria-live="polite">
+
+        <div class="hero-slide active" data-index="0">
+          <div class="hero-slide-bg" style="background: linear-gradient(135deg, #0A1628 0%, #1E3A5F 50%, #0D2137 100%);"></div>
+          <div class="hero-slide-content">
+            <div class="hero-text">
+              <span class="hero-badge">🔥 New Arrival</span>
+              <h1 class="hero-title">Build the Future<br/><span class="hero-accent">With Your Hands</span></h1>
+              <p class="hero-subtitle">Electronics Kits · Robotics · Custom PCBs · 3D Prints</p>
+              <div class="hero-cta-group">
+                <a href="pages/category-electronics.html" class="btn-primary-hero">Shop Now</a>
+                <a href="pages/category-robotics.html" class="btn-secondary-hero">Explore Kits</a>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div class="hero-image-wrapper">
+                <img src="assets/hero-robot.png" alt="Desk Robo Kit" class="hero-product-img" loading="eager" onerror="this.style.display='none'" />
+                <div class="hero-glow-circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-slide" data-index="1">
+          <div class="hero-slide-bg" style="background: linear-gradient(135deg, #0F2A1A 0%, #1A4A2E 50%, #0A1E12 100%);"></div>
+          <div class="hero-slide-content">
+            <div class="hero-text">
+              <span class="hero-badge" style="background: rgba(34,197,94,0.2); color: #22c55e;">🖨️ Custom Order</span>
+              <h2 class="hero-title">Your Design,<br/><span class="hero-accent" style="color:#22c55e;">3D Printed</span></h2>
+              <p class="hero-subtitle">Upload your file · Get instant quote · Fast delivery</p>
+              <div class="hero-cta-group">
+                <a href="pages/category-3dprint.html" class="btn-primary-hero" style="background: #22c55e;">Order Now</a>
+                <a href="https://wa.me/918468013826" class="btn-secondary-hero whatsapp-cta" target="_blank" rel="noopener">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  WhatsApp Us
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-slide" data-index="2">
+          <div class="hero-slide-bg" style="background: linear-gradient(135deg, #1A0A28 0%, #3A1E5F 50%, #1A0D37 100%);"></div>
+          <div class="hero-slide-content">
+            <div class="hero-text">
+              <span class="hero-badge" style="background:rgba(168,85,247,0.2);color:#a855f7;">💻 Refurbished</span>
+              <h2 class="hero-title">Premium Laptops<br/><span class="hero-accent" style="color:#a855f7;">at Half Price</span></h2>
+              <p class="hero-subtitle">Certified · Tested · Warranted · GST Invoice</p>
+              <div class="hero-cta-group">
+                <a href="pages/category-laptops.html" class="btn-primary-hero" style="background:#a855f7;">Browse Laptops</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <button class="slider-btn slider-prev" id="heroPrev" aria-label="Previous slide">&#8249;</button>
+        <button class="slider-btn slider-next" id="heroNext" aria-label="Next slide">&#8250;</button>
+        <div class="slider-dots" role="tablist" aria-label="Slide selector">
+          <button class="slider-dot active" data-index="0" role="tab" aria-selected="true" aria-label="Slide 1"></button>
+          <button class="slider-dot" data-index="1" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+          <button class="slider-dot" data-index="2" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+        </div>
+      </div>
+
+      <!-- Mini Banner Strip -->
+      <div class="mini-banners">
+        <div class="container">
+          <div class="mini-banners-grid">
+            <a href="pages/category-gerber.html" class="mini-banner" aria-label="Upload Gerber File">
+              <div class="mini-banner-icon">📐</div>
+              <div>
+                <strong>PCB Fabrication</strong>
+                <span>Upload Gerber → Order</span>
+              </div>
+            </a>
+            <a href="pages/track.html" class="mini-banner" aria-label="Track Your Order">
+              <div class="mini-banner-icon">📦</div>
+              <div>
+                <strong>Track Order</strong>
+                <span>Real-time tracking</span>
+              </div>
+            </a>
+            <a href="pages/invoices.html" class="mini-banner" aria-label="GST Invoices">
+              <div class="mini-banner-icon">🧾</div>
+              <div>
+                <strong>GST Invoices</strong>
+                <span>Auto-generated, downloadable</span>
+              </div>
+            </a>
+            <a href="pages/support.html" class="mini-banner" aria-label="Customer Support">
+              <div class="mini-banner-icon">💬</div>
+              <div>
+                <strong>24/7 Support</strong>
+                <span>Chat · WhatsApp · Email</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== FEATURED CATEGORIES ====== -->
+    <section class="section featured-categories" aria-labelledby="catSectionTitle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="catSectionTitle">Shop by Category</h2>
+          <p class="section-subtitle">Everything you need, all in one place</p>
+        </div>
+        <div class="categories-grid">
+
+          <a href="pages/category-electronics.html" class="cat-card" aria-label="Electronics Components & Kits">
+            <div class="cat-card-icon electronics">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="4" y="16" width="40" height="24" rx="3"/><path d="M16 16V12a8 8 0 0 1 16 0v4"/>
+                <circle cx="18" cy="28" r="2" fill="currentColor"/><circle cx="30" cy="28" r="2" fill="currentColor"/>
+                <path d="M24 28v4M20 32h8"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">Electronics</h3>
+            <p class="cat-card-desc">Components & Kits</p>
+            <span class="cat-card-count">250+ Products</span>
+          </a>
+
+          <a href="pages/category-robotics.html" class="cat-card" aria-label="Projects Robots Drones">
+            <div class="cat-card-icon robotics">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="14" y="20" width="20" height="18" rx="3"/>
+                <path d="M18 20v-6a6 6 0 0 1 12 0v6"/>
+                <circle cx="19" cy="29" r="2" fill="currentColor"/>
+                <circle cx="29" cy="29" r="2" fill="currentColor"/>
+                <path d="M10 28h4M34 28h4M24 8v6M20 38l-2 4M28 38l2 4"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">Robotics</h3>
+            <p class="cat-card-desc">Projects & Drones</p>
+            <span class="cat-card-count">80+ Products</span>
+          </a>
+
+          <a href="pages/category-gerber.html" class="cat-card" aria-label="Gerber PCB Order">
+            <div class="cat-card-icon gerber">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="6" y="6" width="36" height="36" rx="3"/>
+                <path d="M14 14h8v8h-8zM26 14h8v8h-8zM14 26h8v8h-8zM26 26h8v8h-8z"/>
+                <circle cx="18" cy="18" r="2" fill="currentColor"/>
+                <circle cx="30" cy="18" r="2" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">Gerber PCB</h3>
+            <p class="cat-card-desc">Upload & Order</p>
+            <span class="cat-card-count">Custom Service</span>
+          </a>
+
+          <a href="pages/category-3dprint.html" class="cat-card" aria-label="3D Printing">
+            <div class="cat-card-icon print3d">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M24 4L40 12V36L24 44L8 36V12L24 4z"/>
+                <path d="M24 4v40M8 12l16 8 16-8M8 20l16 8 16-8M8 28l16 8 16-8"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">3D Printing</h3>
+            <p class="cat-card-desc">Custom Prints</p>
+            <span class="cat-card-count">Any Design</span>
+          </a>
+
+          <a href="pages/category-fashion.html" class="cat-card" aria-label="Fashion and Lifestyle">
+            <div class="cat-card-icon fashion">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M20 6C20 8.209 18.209 10 16 10C13.791 10 12 8.209 12 6L4 10 8 20H40L44 10 36 6C36 8.209 34.209 10 32 10C29.791 10 28 8.209 28 6H20z"/>
+                <rect x="8" y="20" width="32" height="22" rx="2"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">Fashion</h3>
+            <p class="cat-card-desc">Lifestyle Picks</p>
+            <span class="cat-card-count">500+ Products</span>
+          </a>
+
+          <a href="pages/category-homedecor.html" class="cat-card" aria-label="Home Decor">
+            <div class="cat-card-icon homedecor">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M6 20L24 6L42 20V42H6V20z"/><path d="M18 42V28h12v14"/>
+                <path d="M14 20h4v4h-4zM30 20h4v4h-4z"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">Home Decor</h3>
+            <p class="cat-card-desc">Interior Picks</p>
+            <span class="cat-card-count">300+ Products</span>
+          </a>
+
+          <a href="pages/category-laptops.html" class="cat-card" aria-label="Refurbished Laptops">
+            <div class="cat-card-icon laptops">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="4" y="8" width="40" height="28" rx="3"/>
+                <line x1="4" y1="40" x2="44" y2="40"/>
+                <line x1="16" y1="36" x2="32" y2="36"/>
+                <rect x="10" y="13" width="28" height="18" rx="1" fill="none"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">2nd Hand Laptops</h3>
+            <p class="cat-card-desc">Certified Refurbished</p>
+            <span class="cat-card-count">50+ Listings</span>
+          </a>
+
+          <a href="https://wa.me/918957271609" class="cat-card cat-card-support" target="_blank" rel="noopener" aria-label="Customer Support">
+            <div class="cat-card-icon support">
+              <svg viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path d="M41.1 7.2A22.9 22.9 0 0 0 24 0C10.7 0 .1 10.6.1 23.9c0 4.2 1.1 8.3 3.2 11.9L0 48l12.5-3.3a23.9 23.9 0 0 0 11.4 2.9h.1c13.3 0 23.9-10.6 23.9-23.9 0-6.4-2.5-12.4-6.8-16.5z"/>
+              </svg>
+            </div>
+            <h3 class="cat-card-name">WhatsApp Us</h3>
+            <p class="cat-card-desc">Instant Support</p>
+            <span class="cat-card-count">8957271609</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== FEATURED PRODUCTS ====== -->
+    <section class="section featured-products" aria-labelledby="featuredTitle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="featuredTitle">Featured Products</h2>
+          <a href="pages/products.html" class="view-all-link">View All →</a>
+        </div>
+        <div class="products-grid" id="featuredProductsGrid">
+          <!-- Products rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== ELECTRONICS SPOTLIGHT ====== -->
+    <section class="section electronics-spotlight" aria-labelledby="electronicsTitle">
+      <div class="container">
+        <div class="spotlight-header">
+          <div>
+            <h2 class="section-title" id="electronicsTitle">⚡ Electronics Kits — Assemble &amp; Learn</h2>
+            <p class="section-subtitle">Guided assembly videos included with every kit</p>
+          </div>
+          <a href="pages/category-electronics.html" class="view-all-link">Shop All →</a>
+        </div>
+        <div class="products-grid" id="electronicsGrid">
+          <!-- Products rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== DESK ROBO & OCTA ROBO ====== -->
+    <section class="section robot-showcase" aria-labelledby="robotTitle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="robotTitle">🤖 Meet Our Robots</h2>
+          <p class="section-subtitle">Build. Program. Impress.</p>
+        </div>
+        <div class="robot-cards">
+          <div class="robot-card">
+            <div class="robot-card-badge">Bestseller</div>
+            <div class="robot-card-image">
+              <div class="robot-placeholder desk-robo-placeholder">
+                <div class="robot-icon-large">🦾</div>
+                <p>Desk Robo</p>
+              </div>
+            </div>
+            <div class="robot-card-info">
+              <h3>Desk Robo</h3>
+              <p>A 6-DOF desktop robotic arm kit. Build, program, and automate your desk tasks. Arduino-powered with full assembly guide.</p>
+              <div class="robot-specs">
+                <span>6-DOF</span><span>Arduino</span><span>Full Kit</span><span>Video Guide</span>
+              </div>
+              <div class="robot-price-row">
+                <div class="price-block">
+                  <span class="price-current">₹2,499</span>
+                  <span class="price-original">₹3,999</span>
+                  <span class="price-discount">38% OFF</span>
+                </div>
+                <div class="product-actions-inline">
+                  <button class="btn-wishlist-sm" onclick="addToWishlist('desk-robo-001')" aria-label="Add to wishlist">❤️</button>
+                  <button class="btn-cart-sm" onclick="addToCart('desk-robo-001')" aria-label="Add to cart">Add to Cart</button>
+                  <a href="pages/product.html?id=desk-robo-001" class="btn-buy-sm" aria-label="Buy Desk Robo now">Buy Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="robot-card">
+            <div class="robot-card-badge new-badge">New!</div>
+            <div class="robot-card-image">
+              <div class="robot-placeholder octa-robo-placeholder">
+                <div class="robot-icon-large">🕷️</div>
+                <p>Octa Robo</p>
+              </div>
+            </div>
+            <div class="robot-card-info">
+              <h3>Octa Robo</h3>
+              <p>An 8-legged spider robot that walks, turns, and dances. Servo-powered with Bluetooth control app and complete DIY kit.</p>
+              <div class="robot-specs">
+                <span>8-Leg</span><span>Bluetooth</span><span>Servo Powered</span><span>App Control</span>
+              </div>
+              <div class="robot-price-row">
+                <div class="price-block">
+                  <span class="price-current">₹3,299</span>
+                  <span class="price-original">₹4,999</span>
+                  <span class="price-discount">34% OFF</span>
+                </div>
+                <div class="product-actions-inline">
+                  <button class="btn-wishlist-sm" onclick="addToWishlist('octa-robo-001')" aria-label="Add to wishlist">❤️</button>
+                  <button class="btn-cart-sm" onclick="addToCart('octa-robo-001')" aria-label="Add to cart">Add to Cart</button>
+                  <a href="pages/product.html?id=octa-robo-001" class="btn-buy-sm" aria-label="Buy Octa Robo now">Buy Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== TRUST BADGES ====== -->
+    <section class="section trust-section" aria-label="Trust and security features">
+      <div class="container">
+        <div class="trust-grid">
+          <div class="trust-item">
+            <div class="trust-icon">🔒</div>
+            <strong>100% Secure</strong>
+            <span>SSL + End-to-End Encryption</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">🚚</div>
+            <strong>Fast Delivery</strong>
+            <span>Pan India · Express Options</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">🔄</div>
+            <strong>Easy Returns</strong>
+            <span>7-Day Hassle-Free Returns</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">🧾</div>
+            <strong>GST Invoice</strong>
+            <span>Auto-generated on every order</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">📱</div>
+            <strong>UPI Payments</strong>
+            <span>Instant · Secure · Zero fees</span>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">⭐</div>
+            <strong>4.8/5 Rating</strong>
+            <span>From 10,000+ customers</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== PERSONALIZED FEED ====== -->
+    <section class="section personalized-section" aria-labelledby="personalizedTitle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="personalizedTitle">✨ Recommended For You</h2>
+          <p class="section-subtitle">Based on trending picks and your interests</p>
+        </div>
+        <div class="products-grid" id="recommendedGrid">
+          <!-- Products rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SOCIAL / INSPIRATION ====== -->
+    <section class="section social-section" aria-labelledby="socialTitle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="socialTitle">📸 From the Community</h2>
+          <p class="section-subtitle">Real builds · Real creators · Real Markus</p>
+        </div>
+        <div class="social-grid">
+          <div class="social-card instagram">
+            <div class="social-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            </div>
+            <h3>Follow on Instagram</h3>
+            <p>See student builds, maker projects, and exclusive behind-the-scenes of Markus creations.</p>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn instagram-btn">@markus_official</a>
+          </div>
+          <div class="social-card youtube">
+            <div class="social-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            </div>
+            <h3>Watch on YouTube</h3>
+            <p>Assembly guides, project tutorials, drone builds, and robotics workshops — all free.</p>
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="social-btn youtube-btn">Markus Channel</a>
+          </div>
+          <div class="social-card whatsapp">
+            <div class="social-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            <h3>WhatsApp Community</h3>
+            <p>Join our WhatsApp group for exclusive deals, early launches, and maker community chats.</p>
+            <a href="https://wa.me/918957271609" target="_blank" rel="noopener" class="social-btn whatsapp-btn">Join Community</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+
+          <div class="footer-col footer-brand">
+            <a href="index.html" class="footer-logo" aria-label="Markus Home">
+              <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                <rect width="40" height="40" rx="8" fill="url(#footerLogoGrad)"/>
+                <path d="M8 30L14 10L20 22L26 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="22" r="3" fill="#FF6B35"/>
+                <defs><linearGradient id="footerLogoGrad" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#1E3A5F"/><stop offset="100%" stop-color="#0A1628"/></linearGradient></defs>
+              </svg>
+              <span>Markus</span>
+            </a>
+            <p class="footer-tagline">Create. Customize. Commerce.</p>
+            <p class="footer-description">India's most innovative platform for makers, creators, students and explorers. Electronics · Robotics · 3D Printing · Fashion · Lifestyle.</p>
+            <div class="footer-social">
+              <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="social-icon-link">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube" class="social-icon-link">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+              </a>
+              <a href="https://wa.me/918957271609" target="_blank" rel="noopener" aria-label="WhatsApp" class="social-icon-link">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-heading">Shop</h3>
+            <ul class="footer-links">
+              <li><a href="pages/category-electronics.html">Electronics &amp; Kits</a></li>
+              <li><a href="pages/category-robotics.html">Robotics &amp; Drones</a></li>
+              <li><a href="pages/category-gerber.html">PCB Fabrication</a></li>
+              <li><a href="pages/category-3dprint.html">3D Printing</a></li>
+              <li><a href="pages/category-fashion.html">Fashion &amp; Lifestyle</a></li>
+              <li><a href="pages/category-homedecor.html">Home Decor</a></li>
+              <li><a href="pages/category-laptops.html">Refurbished Laptops</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-heading">My Account</h3>
+            <ul class="footer-links">
+              <li><a href="pages/profile.html">Profile</a></li>
+              <li><a href="pages/orders.html">Order History</a></li>
+              <li><a href="pages/track.html">Track Order</a></li>
+              <li><a href="pages/wishlist.html">Wishlist</a></li>
+              <li><a href="pages/invoices.html">Invoices &amp; GST</a></li>
+              <li><a href="pages/notifications.html">Notifications</a></li>
+              <li><a href="pages/rewards.html">Rewards</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-heading">Help &amp; Policies</h3>
+            <ul class="footer-links">
+              <li><a href="pages/support.html">Customer Support</a></li>
+              <li><a href="pages/faq.html">FAQ</a></li>
+              <li><a href="pages/returns.html">Returns &amp; Refunds</a></li>
+              <li><a href="pages/shipping.html">Shipping Policy</a></li>
+              <li><a href="pages/privacy.html">Privacy Policy</a></li>
+              <li><a href="pages/terms.html">Terms of Service</a></li>
+              <li><a href="pages/admin/dashboard.html">Admin Panel</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-heading">Contact Us</h3>
+            <div class="footer-contact">
+              <p><strong>WhatsApp (Orders):</strong><br/>
+                <a href="https://wa.me/918957271609">+91 8957271609</a>
+              </p>
+              <p><strong>3D Print Customize:</strong><br/>
+                <a href="https://wa.me/918468013826">+91 8468013826</a>
+              </p>
+              <p><strong>PCB Customize:</strong><br/>
+                <a href="https://wa.me/918765450399">+91 8765450399</a>
+              </p>
+            </div>
+            <div class="footer-payment">
+              <h4>Payment</h4>
+              <div class="payment-badges">
+                <span class="payment-badge">UPI</span>
+                <span class="payment-badge">QR Pay</span>
+                <span class="payment-badge">Net Banking</span>
+                <span class="payment-badge">Cards</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-inner">
+          <p>&copy; 2025 Markus. All rights reserved. | GST Registered | Made in India 🇮🇳</p>
+          <p class="footer-security">🔒 Secured by SSL &bull; TLS 1.3 &bull; OWASP Compliant &bull; 256-bit Encryption</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== FLOATING ELEMENTS ====== -->
+  <!-- Floating Cart Bar -->
+  <div class="floating-cart-bar" id="floatingCartBar" style="display:none;" role="complementary" aria-label="Cart summary">
+    <span id="floatingCartText">0 items in cart</span>
+    <a href="pages/cart.html" class="floating-cart-btn">Go to Cart →</a>
+  </div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/918957271609?text=Hi%2C+I+need+help+with+my+order" 
+     class="whatsapp-float" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="whatsapp-float-tooltip">Chat Support</span>
+  </a>
+
+  <!-- Scroll to Top -->
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top" style="display:none;">↑</button>
+
+  <!-- ====== TOAST NOTIFICATION ====== -->
+  <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+  <!-- ====== AUTH MODAL ====== -->
+  <div class="modal-overlay" id="authModalOverlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="modal auth-modal">
+      <button class="modal-close" id="authModalClose" aria-label="Close">✕</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTabBtn" data-tab="login">Login</button>
+        <button class="auth-tab" id="signupTabBtn" data-tab="signup">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <div class="auth-form-panel active" id="loginPanel">
+        <h2 id="authModalTitle">Welcome Back!</h2>
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label for="loginEmail">Email or Phone</label>
+            <input type="text" id="loginEmail" name="email" placeholder="Enter email or phone" required autocomplete="username" />
+            <span class="field-error" id="loginEmailError"></span>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="loginPassword" name="password" placeholder="Enter password" required autocomplete="current-password" />
+              <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')" aria-label="Toggle password visibility">👁</button>
+            </div>
+            <span class="field-error" id="loginPasswordError"></span>
+          </div>
+          <div class="form-row-flex">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe" /> Remember me
+            </label>
+            <a href="pages/forgot-password.html" class="forgot-link">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn-auth-submit" id="loginSubmitBtn">Login</button>
+        </form>
+        <div class="auth-divider"><span>OR</span></div>
+        <div class="social-auth-btns">
+          <button class="social-auth-btn google-auth" onclick="socialLogin('google')">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+        <p class="auth-switch">Don't have an account? <button onclick="switchAuthTab('signup')" class="link-btn">Sign Up</button></p>
+      </div>
+
+      <!-- Signup Form -->
+      <div class="auth-form-panel" id="signupPanel">
+        <h2>Create Account</h2>
+        <form id="signupForm" novalidate>
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" name="name" placeholder="Your full name" required autocomplete="name"/>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" name="email" placeholder="your@email.com" required autocomplete="email"/>
+          </div>
+          <div class="form-group">
+            <label for="signupPhone">Phone (for OTP)</label>
+            <input type="tel" id="signupPhone" name="phone" placeholder="+91 XXXXX XXXXX" required autocomplete="tel" maxlength="13"/>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="signupPassword" name="password" placeholder="Min 8 chars" required autocomplete="new-password"/>
+              <button type="button" class="password-toggle" onclick="togglePassword('signupPassword')" aria-label="Toggle password visibility">👁</button>
+            </div>
+            <div class="password-strength" id="passwordStrength">
+              <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+              <span class="strength-label" id="strengthLabel">Password strength</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="termsAccept" required />
+              I agree to the <a href="pages/terms.html">Terms of Service</a> and <a href="pages/privacy.html">Privacy Policy</a>
+            </label>
+          </div>
+          <button type="submit" class="btn-auth-submit" id="signupSubmitBtn">Create Account</button>
+        </form>
+        <div class="auth-divider"><span>OR</span></div>
+        <div class="social-auth-btns">
+          <button class="social-auth-btn google-auth" onclick="socialLogin('google')">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+        <p class="auth-switch">Already have an account? <button onclick="switchAuthTab('login')" class="link-btn">Login</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SCRIPTS ====== -->
+  <script src="js/security.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

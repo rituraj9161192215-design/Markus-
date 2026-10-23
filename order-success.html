@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Confirmed — Markus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <style>
+    .success-card { max-width: 650px; margin: 60px auto; background: var(--color-navy-card); border: 1px solid var(--color-navy-border); border-radius: var(--radius-xl); padding: 40px; text-align: center; }
+    .success-icon-wrap { width: 80px; height: 80px; background: rgba(34,197,94,0.1); border: 2px solid #22C55E; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #22C55E; }
+    .order-id-badge { background: var(--color-navy); border: 1px solid var(--color-navy-border); padding: 8px 16px; border-radius: 20px; font-family: monospace; font-size: 1.1rem; color: var(--color-orange); display: inline-block; margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <div class="success-card">
+    <div class="success-icon-wrap">✓</div>
+    <h1 style="font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:8px;">Thank You! Your Order is Confirmed</h1>
+    <p style="color:var(--color-gray);font-size:0.95rem;">
+      We have received your payment and order details. Your GST invoice has been generated automatically.
+    </p>
+
+    <div class="order-id-badge" id="orderIdText">Order ID: Loading...</div>
+
+    <div style="background:var(--color-navy);border-radius:12px;padding:20px;text-align:left;margin:24px 0;font-size:0.88rem;color:#CBD5E1;line-height:1.8;">
+      <div>📦 <strong>Status:</strong> Processing &amp; Quality Check</div>
+      <div>⚡ <strong>Estimated Dispatch:</strong> Tomorrow by 2:00 PM</div>
+      <div>🚚 <strong>Tracking:</strong> Real-time tracking link has been sent via SMS/Email</div>
+      <div>📄 <strong>GST Tax Invoice:</strong> Available for instant print / download below</div>
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-buy-now" onclick="downloadInvoice()">
+        🖨️ Download GST Invoice (PDF)
+      </button>
+      <a href="track.html" id="trackOrderBtn" class="btn-add-cart" style="text-decoration:none;display:inline-block;padding:12px 20px;">
+        Track Shipment
+      </a>
+      <a href="../index.html" class="btn-add-cart" style="text-decoration:none;display:inline-block;padding:12px 20px;">
+        Continue Shopping
+      </a>
+    </div>
+  </div>
+
+  <script src="../js/security.js"></script>
+  <script src="../js/store.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    let currentOrder = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      MarkusStore.init();
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('orderId') || 'MRK-2026-9812';
+      document.getElementById('orderIdText').textContent = `Order ID: ${orderId}`;
+      document.getElementById('trackOrderBtn').href = `track.html?id=${orderId}`;
+
+      const orders = MarkusStore.getOrders();
+      currentOrder = orders.find(o => o.id === orderId) || orders[0] || {
+        id: orderId,
+        date: Date.now(),
+        items: [{ productId: 'elec-001', name: 'Arduino Starter Kit', price: 899, quantity: 1 }],
+        customer: { name: 'Customer' },
+        total: 899
+      };
+    });
+
+    function downloadInvoice() {
+      if (currentOrder) {
+        MarkusInvoice.generate(currentOrder, MarkusAuth.getCurrentUser());
+      }
+    }
+  </script>
+</body>
+</html>
